@@ -1,5 +1,6 @@
 package com.security.Springboot.Security.config;
 
+import com.security.Springboot.Security.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +19,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class MySecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
+public class MySecurityConfig  {
+    private CustomUserDetailsService userDetailsService;
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests()
                 .antMatchers("/user/home").permitAll()
@@ -38,14 +39,14 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //    }
 
-    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        InMemoryUserDetailsManager userDetailsService =new InMemoryUserDetailsManager();
-        UserDetails user1= User.withUsername("arya").password("1234").authorities("admin").build();
-        UserDetails user2= User.withUsername("bharat").password("9876").authorities("user").build();
-        userDetailsService.createUser(user1);
-        userDetailsService.createUser(user2);
-        auth.userDetailsService(userDetailsService);
+//        InMemoryUserDetailsManager userDetailsService =new InMemoryUserDetailsManager();
+//        UserDetails user1= User.withUsername("arya").password("1234").authorities("admin").build();
+//        UserDetails user2= User.withUsername("bharat").password("9876").authorities("user").build();
+//        userDetailsService.createUser(user1);
+//        userDetailsService.createUser(user2);
+
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 
 
     }
